@@ -17,6 +17,7 @@ Plug 'alvan/vim-closetag'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 call plug#end()
 
+syntax enable
 set nobackup
 set nowritebackup
 set noswapfile
@@ -70,6 +71,6 @@ let g:fzf_colors =
   \ 'header':  ['fg', 'Comment'] }
   
   " Auto close tag
-let g:closetag_filenames = '*.html,*.js,*.jsx,*.vue'
+let g:closetag_filenames = '*.html,*.js,*.jsx,*.vue,*.tsx'
 let g:closetag_emptyTags_caseSensitive = 1
 let g:jsx_ext_required = 0
