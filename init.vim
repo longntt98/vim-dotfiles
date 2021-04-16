@@ -11,7 +11,7 @@ let g:multi_cursor_skip_key='<C-x>'
 call plug#begin('~/.vim/plugged')
 Plug 'preservim/nerdtree'
 Plug 'dracula/vim', {'as':'dracula'}
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'alvan/vim-closetag'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
