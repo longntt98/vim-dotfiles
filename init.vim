@@ -58,7 +58,7 @@ set background=dark
 colorscheme dracula
 
 " NERD tree configuration
-noremap <C-d> :NERDTreeToggle<CR>
+noremap <C-b> :NERDTreeToggle<CR>
 nnoremap F :NERDTreeFind<CR>
 let NERDTreeMapOpenInTab='<ENTER>'
 let NERDTreeMapActivateNode='<TAB>'
