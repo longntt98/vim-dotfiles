@@ -42,6 +42,7 @@ function! PlugCoc(info) abort
                               call PlugRemotePlugins(a:info)
                             endfunction
 
+
 call plug#begin('~/.vim/plugged')
 Plug 'itchyny/lightline.vim'
 Plug 'preservim/nerdtree'
@@ -63,7 +64,6 @@ Plug 'honza/vim-snippets'
 "Plug 'epilande/vim-react-snippets'
 "Plug 'SirVer/ultisnips'
 call plug#end()
-
 
 filetype plugin indent on
 set nobackup
@@ -99,7 +99,7 @@ let g:closetag_regions =  {
       \ }
 
 " NERD tree configuration
-nnoremap <C-b> :NERDTreeToggle<CR>
+noremap <C-b> :NERDTreeToggle<CR>
 nnoremap F :NERDTreeFind<CR>
 let NERDTreeMapOpenInTab='<ENTER>'
 let NERDTreeMapActivateNode='<TAB>'
