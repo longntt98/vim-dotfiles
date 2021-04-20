@@ -19,11 +19,16 @@ noremap <leader>8 8gt
 noremap <leader>9 9gt
 noremap <leader>0 :tablast<cr>
 
+"Global
 noremap <C-Down> <C-W>j
 noremap <C-Up> <C-W>k
 noremap <C-Right> <C-W>l
 noremap <C-Left> <C-W>h
-map <C-h> :nohl<CR>
+map <C-H> :nohl<CR>
+nnoremap <C-h> :%s<SPACE>//g
+nnoremap / /\c
+nnoremap U <C-r>
+
 " Multi select
 let g:multi_cursor_next_key='<C-n>'
 let g:multi_cursor_prev_key='<C-p>'
@@ -50,16 +55,18 @@ Plug 'dracula/vim', {'as':'dracula'}
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'alvan/vim-closetag'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+"Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'leafgarland/typescript-vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': function('PlugCoc')}
-Plug 'prettier/vim-prettier', { 'do': 'yarn install', 'branch': 'release/1.x' }
+"Plug 'prettier/vim-prettier', { 'do': 'yarn install', 'branch': 'release/1.x' }
 Plug 'alvan/vim-closetag'
 Plug 'airblade/vim-gitgutter'
 Plug 'preservim/nerdcommenter'
 Plug 'terryma/vim-multiple-cursors'
-Plug 'ervandew/supertab'
+"Plug 'ervandew/supertab'
 Plug 'honza/vim-snippets'
+Plug 'jiangmiao/auto-pairs'
+Plug 'tpope/vim-fugitive'
 "Plug 'epilande/vim-es2015-snippets'
 "Plug 'epilande/vim-react-snippets'
 "Plug 'SirVer/ultisnips'
@@ -128,7 +135,7 @@ set nojoinspaces
 nnoremap K :Ag <C-R><C-W><CR>
 nnoremap <C-k> /<C-R><C-W><CR>
 nnoremap \ :Ag<SPACE>
-nnoremap <C-F> :Files<SPACE>
+nnoremap <C-F> :GFiles<SPACE><CR>
 " Customize fzf colors to match your color scheme
 let g:fzf_colors =
 \ { 'fg':      ['fg', 'Normal'],
@@ -148,9 +155,9 @@ let g:fzf_colors =
 " config Lightline
 let g:dightline = {
       \ 'colorscheme': 'darcula',
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'gitbranch', 'cocstatus', 'readonly', 'filename', 'modified' ] ],
+      \'active': {
+      \   'left': [ [ 'mode', 'paste', 'absolutepath'],
+      \             [ 'gitbranch', 'cocstatus', 'readonly',  'modified' ] ],
       \   'right': [ [ 'lineinfo', 'percent' ],
       \              [ 'fileformat', 'fileencoding', 'filetype' ] ]
       \ },
@@ -158,9 +165,19 @@ let g:dightline = {
       \ 'subseparator': { 'left': '', 'right': '' },
       \ 'component_function': {
       \   'gitbranch': 'fugitive#head',
-      \   'cocstatus': 'coc#status'
+      \   'cocstatus': 'coc#status',
+      \   'filename': 'LightlineFilename'
       \ },
       \ }
+"get file name
+function! LightlineFilename()
+  let root = fnamemodify(get(b:, 'git_dir'), ':h')
+  let path = expand('%:p')
+  if path[:len(root)-1] ==# root
+    return path[len(root)+1:]
+  endif
+  return expand('%')
+endfunction
 
 " coc
 "Use `:Format` to format current buffer
