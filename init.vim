@@ -24,8 +24,8 @@ noremap <C-Down> <C-W>j
 noremap <C-Up> <C-W>k
 noremap <C-Right> <C-W>l
 noremap <C-Left> <C-W>h
-map <C-H> :nohl<CR>
-nnoremap <C-h> :%s<SPACE>//g
+nnoremap <C-h> :nohl<CR>
+nnoremap ? :%s<SPACE>//g
 nnoremap / /\c
 nnoremap U <C-r>
 
@@ -34,7 +34,16 @@ let g:multi_cursor_next_key='<C-n>'
 let g:multi_cursor_prev_key='<C-p>'
 let g:multi_cursor_skip_key='<C-x>'
 
-let g:coc_global_extensions = ['coc-css', 'coc-fzf-preview', 'coc-html', 'coc-html-css-support', 'coc-prettier', 'coc-lists',  'coc-stylelintplus', 'coc-tsserver']
+let g:coc_global_extensions = [
+      \'coc-css',
+      \'coc-fzf-preview', 
+      \'coc-html', 
+      \'coc-html-css-support',
+      \'coc-prettier', 
+      \'coc-lists',
+      \'coc-stylelintplus',
+      \'coc-tsserver'
+      \]
 
 function! PlugCoc(info) abort
     if a:info.status ==? 'installed' || a:info.force
@@ -46,7 +55,6 @@ function! PlugCoc(info) abort
                             endif
                               call PlugRemotePlugins(a:info)
                             endfunction
-
 
 call plug#begin('~/.vim/plugged')
 Plug 'itchyny/lightline.vim'
@@ -61,7 +69,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': function('PlugCoc')}
 "Plug 'prettier/vim-prettier', { 'do': 'yarn install', 'branch': 'release/1.x' }
 Plug 'alvan/vim-closetag'
 Plug 'airblade/vim-gitgutter'
-Plug 'preservim/nerdcommenter'
+"Plug 'preservim/nerdcommenter'
 Plug 'terryma/vim-multiple-cursors'
 "Plug 'ervandew/supertab'
 Plug 'honza/vim-snippets'
@@ -96,9 +104,23 @@ set clipboard=unnamedplus
 set lazyredraw
 set termguicolors
 
-set background=dark
-
-colorscheme dracula
+" config Lightline
+let g:lightline = {
+      \'colorscheme': 'dracula',
+      \'active': {
+      \   'left': [ [ 'mode', 'paste', 'absolutepath'],
+      \             [ 'gitbranch', 'cocstatus', 'readonly',  'modified' ] ],
+      \   'right':[[ 'filetype','lineinfo']],
+      \ },
+      \ 'separator': { 'left': '', 'right': '' },
+      \ 'subseparator': { 'left': '', 'right': '' },
+      \ 'component_function': {
+      \   'gitbranch': 'fugitive#head',
+      \   'cocstatus': 'coc#status',
+      \   'filename': 'LightlineFilename',
+      \   'lineinfo':'LightlineLineinfo'
+      \ },
+      \}
 
 let g:closetag_regions =  {
       \ 'typescript.tsx': 'jsxRegion,tsxRegion',
@@ -129,7 +151,6 @@ set expandtab
 " Use one space, not two, after punctuation
 set nojoinspaces
 
-
 " fzf.vim
 "shortcut
 nnoremap K :Ag <C-R><C-W><CR>
@@ -152,23 +173,7 @@ let g:fzf_colors =
   \ 'spinner': ['fg', 'Label'],
   \ 'header':  ['fg', 'Comment'] }
 
-" config Lightline
-let g:dightline = {
-      \ 'colorscheme': 'darcula',
-      \'active': {
-      \   'left': [ [ 'mode', 'paste', 'absolutepath'],
-      \             [ 'gitbranch', 'cocstatus', 'readonly',  'modified' ] ],
-      \   'right': [ [ 'lineinfo', 'percent' ],
-      \              [ 'fileformat', 'fileencoding', 'filetype' ] ]
-      \ },
-      \ 'separator': { 'left': '', 'right': '' },
-      \ 'subseparator': { 'left': '', 'right': '' },
-      \ 'component_function': {
-      \   'gitbranch': 'fugitive#head',
-      \   'cocstatus': 'coc#status',
-      \   'filename': 'LightlineFilename'
-      \ },
-      \ }
+"lightline function
 "get file name
 function! LightlineFilename()
   let root = fnamemodify(get(b:, 'git_dir'), ':h')
@@ -177,6 +182,18 @@ function! LightlineFilename()
     return path[len(root)+1:]
   endif
   return expand('%')
+endfunction
+
+"get location of current line
+function! LightlineLineinfo() abort
+    if winwidth(0) < 86
+        return ''
+    endif
+
+    let l:current_line = printf('%-3s', line('.'))
+    let l:max_line = printf('%-3s', line('$'))
+    let l:lineinfo = ' ' . l:current_line . '/' . l:max_line
+    return l:lineinfo
 endfunction
 
 " coc
@@ -196,3 +213,6 @@ augroup END
 let g:closetag_filenames = '*.html,*.js,*.jsx,*.vue,*.tsx, *.ts'
 let g:closetag_emptyTags_caseSensitive = 1
 let g:jsx_ext_required = 0
+
+colorscheme dracula
+set background=dark
