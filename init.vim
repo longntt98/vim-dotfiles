@@ -24,8 +24,8 @@ noremap <C-Down> <C-W>j
 noremap <C-Up> <C-W>k
 noremap <C-Right> <C-W>l
 noremap <C-Left> <C-W>h
-map <C-H> :nohl<CR>
-nnoremap <C-h> :%s<SPACE>//g
+map <C-h> :nohl<CR>
+nnoremap ? :%s<SPACE>//g
 nnoremap / /\c
 nnoremap U <C-r>
 
@@ -63,7 +63,7 @@ Plug 'alvan/vim-closetag'
 Plug 'airblade/vim-gitgutter'
 Plug 'preservim/nerdcommenter'
 Plug 'terryma/vim-multiple-cursors'
-"Plug 'ervandew/supertab'
+Plug 'ervandew/supertab'
 Plug 'honza/vim-snippets'
 Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-fugitive'
@@ -153,13 +153,12 @@ let g:fzf_colors =
   \ 'header':  ['fg', 'Comment'] }
 
 " config Lightline
-let g:dightline = {
+let g:lightline = {
       \ 'colorscheme': 'darcula',
       \'active': {
       \   'left': [ [ 'mode', 'paste', 'absolutepath'],
       \             [ 'gitbranch', 'cocstatus', 'readonly',  'modified' ] ],
-      \   'right': [ [ 'lineinfo', 'percent' ],
-      \              [ 'fileformat', 'fileencoding', 'filetype' ] ]
+      \   'right': [ [  'lineinfo','filetype'  ]]
       \ },
       \ 'separator': { 'left': '', 'right': '' },
       \ 'subseparator': { 'left': '', 'right': '' },
@@ -169,6 +168,8 @@ let g:dightline = {
       \   'filename': 'LightlineFilename'
       \ },
       \ }
+
+"lightline func
 "get file name
 function! LightlineFilename()
   let root = fnamemodify(get(b:, 'git_dir'), ':h')
@@ -177,6 +178,18 @@ function! LightlineFilename()
     return path[len(root)+1:]
   endif
   return expand('%')
+endfunction
+
+"get location of current line
+function! LightlineLineinfo() abort
+    if winwidth(0) < 86
+        return ''
+    endif
+
+    let l:current_line = printf('%-3s', line('.'))
+    let l:max_line = printf('%-3s', line('$'))
+    let l:lineinfo = ' ' . l:current_line . '/' . l:max_line
+    return l:lineinfo
 endfunction
 
 " coc
