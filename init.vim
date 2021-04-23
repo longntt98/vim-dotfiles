@@ -25,10 +25,11 @@ noremap <C-Up> <C-W>k
 noremap <C-Right> <C-W>l
 noremap <C-Left> <C-W>h
 map <C-h> :nohl<CR>
-nnoremap ? :%s<SPACE>//g
+nnoremap ? :%s<SPACE>///g
 nnoremap / /\c
 nnoremap U <C-r>
-
+nmap <CR> _i<ENTER><ESC>
+nnoremap <leader><leader> i<Space><Esc>
 " Multi select
 let g:multi_cursor_next_key='<C-n>'
 let g:multi_cursor_prev_key='<C-p>'
@@ -105,6 +106,11 @@ let g:closetag_regions =  {
       \ 'javascript.jsx': 'jsxRegion',
       \ }
 
+nnoremap <leader>gd :Gvdiffsplit!<CR>
+nnoremap <leader>gdh :diffget //2<CR>
+nnoremap <leader>gdl :diffget //3<CR>
+
+
 " NERD tree configuration
 noremap <C-b> :NERDTreeToggle<CR>
 nnoremap F :NERDTreeFind<CR>
@@ -169,7 +175,10 @@ let g:lightline = {
       \ },
       \ }
 
-"lightline func
+"autopair config
+let g:AutoPairsShortcutToggle = '<leader>p'
+
+    "lightline func
 "get file name
 function! LightlineFilename()
   let root = fnamemodify(get(b:, 'git_dir'), ':h')
