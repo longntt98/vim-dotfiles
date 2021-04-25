@@ -6,3 +6,4 @@ tmux new-session \;\
   select-pane -t 0 \;\
   split-window -v \;\
 
+

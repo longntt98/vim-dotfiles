@@ -25,9 +25,16 @@ noremap <C-Up> <C-W>k
 noremap <C-Right> <C-W>l
 noremap <C-Left> <C-W>h
 nnoremap <C-h> :nohl<CR>
-nnoremap ? :%s<SPACE>//g
+nnoremap ? :%s<SPACE>///g
 nnoremap / /\c
 nnoremap U <C-r>
+nmap <CR> i<ENTER><ESC>
+nnoremap <leader><leader> i<Space><Esc>
+nnoremap  <leader>=  <C-W>=
+
+"insert mode
+inoremap  <C-Right> <ESC><C-W>l
+inoremap  <C-Left> <ESC><C-W>h
 
 " Multi select
 let g:multi_cursor_next_key='<C-n>'
@@ -71,7 +78,7 @@ Plug 'alvan/vim-closetag'
 Plug 'airblade/vim-gitgutter'
 "Plug 'preservim/nerdcommenter'
 Plug 'terryma/vim-multiple-cursors'
-"Plug 'ervandew/supertab'
+Plug 'ervandew/supertab'
 Plug 'honza/vim-snippets'
 Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-fugitive'
@@ -127,6 +134,11 @@ let g:closetag_regions =  {
       \ 'javascript.jsx': 'jsxRegion',
       \ }
 
+nnoremap <leader>gd :Gvdiffsplit!<CR>
+nnoremap <leader>gdh :diffget //2<CR>
+nnoremap <leader>gdl :diffget //3<CR>
+
+
 " NERD tree configuration
 noremap <C-b> :NERDTreeToggle<CR>
 nnoremap F :NERDTreeFind<CR>
@@ -156,7 +168,8 @@ set nojoinspaces
 nnoremap K :Ag <C-R><C-W><CR>
 nnoremap <C-k> /<C-R><C-W><CR>
 nnoremap \ :Ag<SPACE>
-nnoremap <C-F> :GFiles<SPACE><CR>
+nnoremap <C-F> :GFiles<SPACE><CR>	 
+let g:fzf_action = {'enter' : 'tab split','ctrl-x':  'split','ctrl-v':  'vsplit'}
 " Customize fzf colors to match your color scheme
 let g:fzf_colors =
 \ { 'fg':      ['fg', 'Normal'],
@@ -173,7 +186,28 @@ let g:fzf_colors =
   \ 'spinner': ['fg', 'Label'],
   \ 'header':  ['fg', 'Comment'] }
 
-"lightline function
+" config Lightline
+let g:lightline = {
+      \ 'colorscheme': 'darcula',
+      \'active': {
+      \   'left': [ [ 'mode', 'paste', 'absolutepath'],
+      \             [ 'gitbranch', 'cocstatus', 'readonly',  'modified' ] ],
+      \   'right': [ [  'lineinfo','filetype'  ]]
+      \ },
+      \ 'separator': { 'left': '', 'right': '' },
+      \ 'subseparator': { 'left': '', 'right': '' },
+      \ 'component_function': {
+      \   'gitbranch': 'fugitive#head',
+      \   'cocstatus': 'coc#status',
+      \   'filename': 'LightlineFilename',
+      \   'lineinfo':'LightlineLineinfo' 
+      \ },
+      \ }
+
+"autopair config
+let g:AutoPairsShortcutToggle = '<leader>p'
+
+    "lightline func
 "get file name
 function! LightlineFilename()
   let root = fnamemodify(get(b:, 'git_dir'), ':h')
@@ -206,7 +240,7 @@ nmap <Leader>o :OR <CR>
 augroup SyntaxSettings
 	autocmd!
 	autocmd BufNewFile,BufRead *.tsx set filetype=typescriptreact
-	autocmd BufNewFile,BufRead *.jsx set filetype=javascriptjeact
+	autocmd BufNewFile,BufRead *.jsx set filetype=javascriptreact
 augroup END
 
   " Auto close tag
