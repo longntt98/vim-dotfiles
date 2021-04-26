@@ -31,7 +31,8 @@ nnoremap U <C-r>
 nmap <CR> i<ENTER><ESC>
 nnoremap <leader><leader> i<Space><Esc>
 nnoremap  <leader>=  <C-W>=
-
+nnoremap <leader>s :w
+nnoremap <leader>r cst<
 "insert mode
 inoremap  <C-Right> <ESC><C-W>l
 inoremap  <C-Left> <ESC><C-W>h
@@ -82,6 +83,7 @@ Plug 'ervandew/supertab'
 Plug 'honza/vim-snippets'
 Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-surround'
 "Plug 'epilande/vim-es2015-snippets'
 "Plug 'epilande/vim-react-snippets'
 "Plug 'SirVer/ultisnips'
@@ -115,8 +117,8 @@ set termguicolors
 let g:lightline = {
       \'colorscheme': 'dracula',
       \'active': {
-      \   'left': [ [ 'mode', 'paste', 'absolutepath'],
-      \             [ 'gitbranch', 'cocstatus', 'readonly',  'modified' ] ],
+      \   'left': [ [ 'mode', 'paste', 'absolutepath', 'modified'],
+      \             [ 'gitbranch', 'cocstatus', 'readonly',   ] ],
       \   'right':[[ 'filetype','lineinfo']],
       \ },
       \ 'separator': { 'left': '', 'right': '' },
@@ -169,7 +171,8 @@ nnoremap K :Ag <C-R><C-W><CR>
 nnoremap <C-k> /<C-R><C-W><CR>
 nnoremap \ :Ag<SPACE>
 nnoremap <C-F> :GFiles<SPACE><CR>	 
-let g:fzf_action = {'enter' : 'tab split','ctrl-x':  'split','ctrl-v':  'vsplit'}
+"let g:fzf_action = {'enter' : 'tab split','ctrl-x':  'split','ctrl-v':  'vsplit'}
+
 " Customize fzf colors to match your color scheme
 let g:fzf_colors =
 \ { 'fg':      ['fg', 'Normal'],
