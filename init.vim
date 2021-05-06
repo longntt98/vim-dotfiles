@@ -7,6 +7,7 @@ nnoremap <C-t> :tabnew<CR>
 nnoremap <C-t> <Esc>:tabnew<CR>
 nnoremap <Leader>\ :vsplit<CR>
 nnoremap <Leader>/ :split<CR>
+
 "Go to tab by number
 noremap <leader>1 1gt
 noremap <leader>2 2gt
@@ -27,12 +28,10 @@ noremap <C-Left> <C-W>h
 nnoremap <C-h> :nohl<CR>
 nnoremap ? :%s<SPACE>///g
 nnoremap / /\c
-nnoremap U <C-r>
-nmap <CR> i<ENTER><ESC>
+nnoremap <CR> i<CR><ESC>
 nnoremap <leader><leader> i<Space><Esc>
 nnoremap  <leader>=  <C-W>=
-nnoremap <leader>s :w
-nnoremap <leader>r cst<
+
 "insert mode
 inoremap  <C-Right> <ESC><C-W>l
 inoremap  <C-Left> <ESC><C-W>h
@@ -71,10 +70,8 @@ Plug 'dracula/vim', {'as':'dracula'}
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'alvan/vim-closetag'
-"Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'leafgarland/typescript-vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': function('PlugCoc')}
-"Plug 'prettier/vim-prettier', { 'do': 'yarn install', 'branch': 'release/1.x' }
 Plug 'alvan/vim-closetag'
 Plug 'airblade/vim-gitgutter'
 "Plug 'preservim/nerdcommenter'
@@ -82,11 +79,9 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'ervandew/supertab'
 Plug 'honza/vim-snippets'
 Plug 'jiangmiao/auto-pairs'
-Plug 'tpope/vim-fugitive'
+Plug 'sheerun/vim-polyglot'
+"Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
-"Plug 'epilande/vim-es2015-snippets'
-"Plug 'epilande/vim-react-snippets'
-"Plug 'SirVer/ultisnips'
 call plug#end()
 
 filetype plugin indent on
@@ -126,7 +121,6 @@ let g:lightline = {
       \ 'component_function': {
       \   'gitbranch': 'fugitive#head',
       \   'cocstatus': 'coc#status',
-      \   'filename': 'LightlineFilename',
       \   'lineinfo':'LightlineLineinfo'
       \ },
       \}
@@ -229,7 +223,7 @@ function! LightlineLineinfo() abort
 
     let l:current_line = printf('%-3s', line('.'))
     let l:max_line = printf('%-3s', line('$'))
-    let l:lineinfo = ' ' . l:current_line . '/' . l:max_line
+    let l:lineinfo =  l:current_line . '/' . l:max_line
     return l:lineinfo
 endfunction
 
