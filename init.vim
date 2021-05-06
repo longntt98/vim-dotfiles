@@ -1,6 +1,8 @@
 "Leader
 let mapleader = " "
 
+map <F2> :tabnew<CR>:term<CR>i
+
 nnoremap L gt
 nnoremap H gT
 nnoremap <C-t> :tabnew<CR>
@@ -21,20 +23,22 @@ noremap <leader>9 9gt
 noremap <leader>0 :tablast<cr>
 
 "Global
-noremap <C-Down> <C-W>j
-noremap <C-Up> <C-W>k
-noremap <C-Right> <C-W>l
-noremap <C-Left> <C-W>h
-nnoremap <C-h> :nohl<CR>
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-l> <C-W>l
+map <C-h> <C-W>h
+map <leader>w :w<CR>
+nmap qq :q<CR>
+nmap ww :w<CR> 
+nnoremap <leader>h :nohl<CR>
 nnoremap ? :%s<SPACE>///g
 nnoremap / /\c
-nnoremap <CR> i<CR><ESC>
 nnoremap <leader><leader> i<Space><Esc>
 nnoremap  <leader>=  <C-W>=
 
 "insert mode
-inoremap  <C-Right> <ESC><C-W>l
-inoremap  <C-Left> <ESC><C-W>h
+imap  <C-l> <ESC><C-W>l
+imap  <C-h> <ESC><C-W>h
 
 " Multi select
 let g:multi_cursor_next_key='<C-n>'
@@ -63,6 +67,19 @@ function! PlugCoc(info) abort
                               call PlugRemotePlugins(a:info)
                             endfunction
 
+augroup FastEscape
+    autocmd!
+    au InsertEnter * set timeoutlen=0
+    au InsertLeave * set timeoutlen=1000
+augroup END                           
+
+"Auto install vim plug if not found
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
 call plug#begin('~/.vim/plugged')
 Plug 'itchyny/lightline.vim'
 Plug 'preservim/nerdtree'
@@ -74,13 +91,14 @@ Plug 'leafgarland/typescript-vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': function('PlugCoc')}
 Plug 'alvan/vim-closetag'
 Plug 'airblade/vim-gitgutter'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 "Plug 'preservim/nerdcommenter'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'ervandew/supertab'
 Plug 'honza/vim-snippets'
 Plug 'jiangmiao/auto-pairs'
 Plug 'sheerun/vim-polyglot'
-"Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 call plug#end()
 
@@ -94,6 +112,7 @@ set showcmd       " display incomplete commands
 set incsearch     " do incremental searching
 set laststatus=2  " Always display the status line
 set autowrite     " Automatically :write before running commands
+set cursorline
 
 set autoread
 set autowrite
@@ -108,7 +127,16 @@ set clipboard=unnamedplus
 set lazyredraw
 set termguicolors
 
+" Split vertical windows right to the current windows
+set splitright
+
+" Split horizontal windows below to the current windows
+set splitbelow
 " config Lightline
+
+" Remember undo after quiting
+set hidden
+
 let g:lightline = {
       \'colorscheme': 'dracula',
       \'active': {
@@ -141,6 +169,12 @@ nnoremap F :NERDTreeFind<CR>
 let NERDTreeMapOpenInTab='<ENTER>'
 let NERDTreeMapActivateNode='<TAB>'
 let NERDTreeShowHidden=1
+" open NERDTree automatically on vim start, even if no file is specified
+"autocmd StdinReadPre * let s:std_in=1
+"autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+
+" Auto close NERDTree if it is the last and only buffer
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 "Prettier config
 let g:prettier#config#single_quote = 'true'
@@ -163,9 +197,14 @@ set nojoinspaces
 "shortcut
 nnoremap K :Ag <C-R><C-W><CR>
 nnoremap <C-k> /<C-R><C-W><CR>
-nnoremap \ :Ag<SPACE>
-nnoremap <C-F> :GFiles<SPACE><CR>	 
+nnoremap \ :Ag<CR>'
+nnoremap <C-F> :Files<SPACE><CR>'	 
+command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
 "let g:fzf_action = {'enter' : 'tab split','ctrl-x':  'split','ctrl-v':  'vsplit'}
+
+set wildmode=list:longest,list:full
+set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__
+let $FZF_DEFAULT_COMMAND =  "find * -path '*/\.*' -prune -o -path '**/node_modules/**' -prune -o -path 'node_modules/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o  -type f -print -o -type l -print 2> /dev/null"
 
 " Customize fzf colors to match your color scheme
 let g:fzf_colors =
@@ -202,9 +241,12 @@ let g:lightline = {
       \ }
 
 "autopair config
-let g:AutoPairsShortcutToggle = '<leader>p'
+"let g:AutoPairsShortcutToggle = '<leader>p'
 
-    "lightline func
+" Return to last edit position when opening files (You want this!)
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+
+"lightline func
 "get file name
 function! LightlineFilename()
   let root = fnamemodify(get(b:, 'git_dir'), ':h')
@@ -214,7 +256,6 @@ function! LightlineFilename()
   endif
   return expand('%')
 endfunction
-
 "get location of current line
 function! LightlineLineinfo() abort
     if winwidth(0) < 86
