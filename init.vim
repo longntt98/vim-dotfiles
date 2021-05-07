@@ -35,7 +35,7 @@ nnoremap ? :%s<SPACE>///g
 nnoremap / /\c
 nnoremap <leader><leader> i<Space><Esc>
 nnoremap  <leader>=  <C-W>=
-
+nmap <leader><CR> i<End><CR>
 "insert mode
 imap  <C-l> <ESC><C-W>l
 imap  <C-h> <ESC><C-W>h
@@ -46,16 +46,17 @@ let g:multi_cursor_prev_key='<C-p>'
 let g:multi_cursor_skip_key='<C-x>'
 
 let g:coc_global_extensions = [
-      \'coc-css',
       \'coc-fzf-preview', 
-      \'coc-html', 
-      \'coc-html-css-support',
       \'coc-prettier', 
-      \'coc-lists',
-      \'coc-stylelintplus',
-      \'coc-tsserver'
+      \'coc-tsserver',
+      \'coc-json' 
       \]
-
+"      \'coc-html', 
+"      \'coc-html-css-support',
+"      \'coc-lists',
+"      \'coc-css',
+"      \'coc-stylelintplus',
+ 
 function! PlugCoc(info) abort
     if a:info.status ==? 'installed' || a:info.force
           !yarn install
@@ -97,9 +98,13 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'ervandew/supertab'
 Plug 'honza/vim-snippets'
 Plug 'jiangmiao/auto-pairs'
+Plug 'tpope/vim-surround'
 Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-surround'
+"Plug 'pangloss/vim-javascript'
+"Plug 'epilande/vim-react-snippets'
+Plug 'tpope/vim-rails'
+"Plug 'SirVer/ultisnips'
 call plug#end()
 
 filetype plugin indent on
@@ -132,6 +137,8 @@ set splitright
 
 " Split horizontal windows below to the current windows
 set splitbelow
+
+let g:gruvbox_guisp_fallback = 'bg'
 " config Lightline
 
 " Remember undo after quiting
@@ -159,8 +166,8 @@ let g:closetag_regions =  {
       \ }
 
 nnoremap <leader>gd :Gvdiffsplit!<CR>
-nnoremap <leader>gdh :diffget //2<CR>
-nnoremap <leader>gdl :diffget //3<CR>
+nnoremap <leader>gh :diffget //2<CR>
+nnoremap <leader>gl :diffget //3<CR>
 
 
 " NERD tree configuration
@@ -197,9 +204,10 @@ set nojoinspaces
 "shortcut
 nnoremap K :Ag <C-R><C-W><CR>
 nnoremap <C-k> /<C-R><C-W><CR>
-nnoremap \ :Ag<CR>'
+nnoremap \ :Ag<SPACE><CR>'
 nnoremap <C-F> :Files<SPACE><CR>'	 
 command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
+"nnoremap <C-k> /<C-R><C-W><CR>
 "let g:fzf_action = {'enter' : 'tab split','ctrl-x':  'split','ctrl-v':  'vsplit'}
 
 set wildmode=list:longest,list:full
@@ -286,5 +294,16 @@ let g:closetag_filenames = '*.html,*.js,*.jsx,*.vue,*.tsx, *.ts'
 let g:closetag_emptyTags_caseSensitive = 1
 let g:jsx_ext_required = 0
 
+"dracula color config
+"hi link jsModuleKeyword	Identifier
+"hi link jsVariableDef		Identifier
+"hi link jsFuncArgs		Identifier
+"hi link jsFuncCall		Function
+"hi link jsObjectProp		Identifier
+"hi link jsObjectKey		Label
+"hi link jsObjectValue		Normal
+"hi! link jsxComponentName  Type
+
 colorscheme dracula
 set background=dark
+
