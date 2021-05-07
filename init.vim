@@ -2,14 +2,13 @@
 let mapleader = " "
 
 map <F2> :tabnew<CR>:term<CR>i
+nmap <F3> :!free -m<CR>
 
 nnoremap L gt
 nnoremap H gT
 nnoremap <C-t> :tabnew<CR>
-nnoremap <C-t> <Esc>:tabnew<CR>
 nnoremap <Leader>\ :vsplit<CR>
 nnoremap <Leader>/ :split<CR>
-
 "Go to tab by number
 noremap <leader>1 1gt
 noremap <leader>2 2gt
@@ -29,13 +28,13 @@ map <C-l> <C-W>l
 map <C-h> <C-W>h
 map <leader>w :w<CR>
 nmap qq :q<CR>
-nmap ww :w<CR> 
+nmap ww :w<CR>
 nnoremap <leader>h :nohl<CR>
 nnoremap ? :%s<SPACE>///g
 nnoremap / /\c
-nnoremap <leader><leader> i<Space><Esc>
+" nnoremap <leader><leader> i<Right><Space><Esc>
 nnoremap  <leader>=  <C-W>=
-nmap <leader><CR> i<End><CR>
+"nmap <leader><CR> i<End><CR><Esc><Up>
 "insert mode
 imap  <C-l> <ESC><C-W>l
 imap  <C-h> <ESC><C-W>h
@@ -59,7 +58,7 @@ let g:coc_global_extensions = [
  
 function! PlugCoc(info) abort
     if a:info.status ==? 'installed' || a:info.force
-          !yarn install
+          !nyarn install
               call coc#util#install_extension(join(get(s:, 'coc_extensions', [])))
                 elseif a:info.status ==? 'updated'
                       !yarn install
@@ -92,8 +91,8 @@ Plug 'leafgarland/typescript-vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': function('PlugCoc')}
 Plug 'alvan/vim-closetag'
 Plug 'airblade/vim-gitgutter'
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-"Plug 'preservim/nerdcommenter'
+"Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'preservim/nerdcommenter'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'ervandew/supertab'
 Plug 'honza/vim-snippets'
@@ -101,12 +100,13 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-surround'
 Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-fugitive'
+Plug 'easymotion/vim-easymotion'
 "Plug 'pangloss/vim-javascript'
 "Plug 'epilande/vim-react-snippets'
 Plug 'tpope/vim-rails'
 "Plug 'SirVer/ultisnips'
 call plug#end()
-
+ 
 filetype plugin indent on
 set nobackup
 set nowritebackup
@@ -204,8 +204,8 @@ set nojoinspaces
 "shortcut
 nnoremap K :Ag <C-R><C-W><CR>
 nnoremap <C-k> /<C-R><C-W><CR>
-nnoremap \ :Ag<SPACE><CR>'
-nnoremap <C-F> :Files<SPACE><CR>'	 
+nnoremap \ :Ag<CR>'
+nnoremap <C-F> :Files<CR>'	 
 command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
 "nnoremap <C-k> /<C-R><C-W><CR>
 "let g:fzf_action = {'enter' : 'tab split','ctrl-x':  'split','ctrl-v':  'vsplit'}
@@ -294,6 +294,18 @@ let g:closetag_filenames = '*.html,*.js,*.jsx,*.vue,*.tsx, *.ts'
 let g:closetag_emptyTags_caseSensitive = 1
 let g:jsx_ext_required = 0
 
+"NERDcommenter
+"Create default mappings
+let g:NERDCreateDefaultMappings = 0
+map ;; <plug>NERDCommenterToggle
+" Align line-wise comment delimiters flush left instead of following code indentation
+let g:NERDDefaultAlign = 'left'
+" Add spaces after comment delimiters by default
+let g:NERDSpaceDelims = 1
+
+"easymotion
+" <Leader>f{char} to move to {char}
+map <leader><tab> <Plug>(easymotion-bd-f)
 "dracula color config
 "hi link jsModuleKeyword	Identifier
 "hi link jsVariableDef		Identifier
@@ -301,7 +313,7 @@ let g:jsx_ext_required = 0
 "hi link jsFuncCall		Function
 "hi link jsObjectProp		Identifier
 "hi link jsObjectKey		Label
-"hi link jsObjectValue		Normal
+",i link jsObjectValue		Normal
 "hi! link jsxComponentName  Type
 
 colorscheme dracula
