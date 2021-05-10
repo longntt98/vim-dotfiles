@@ -205,7 +205,7 @@ set nojoinspaces
 nnoremap K :Ag <C-R><C-W><CR>
 nnoremap <C-k> /<C-R><C-W><CR>
 nnoremap \ :Ag<CR>'
-nnoremap <C-F> :Files<CR>'	 
+nnoremap <C-f> :Files<CR>'
 command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
 "nnoremap <C-k> /<C-R><C-W><CR>
 "let g:fzf_action = {'enter' : 'tab split','ctrl-x':  'split','ctrl-v':  'vsplit'}
