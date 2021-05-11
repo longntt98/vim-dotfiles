@@ -305,7 +305,11 @@ let g:NERDSpaceDelims = 1
 
 "easymotion
 " <Leader>f{char} to move to {char}
-map <leader><tab> <Plug>(easymotion-bd-f)
+map <leader><tab>{char} <Plug>(easymotion-bd-f)
+
+"git-fugitive
+nmap <leader>gb :Gblame<CR>
+
 "dracula color config
 "hi link jsModuleKeyword	Identifier
 "hi link jsVariableDef		Identifier
