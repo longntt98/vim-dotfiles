@@ -48,12 +48,13 @@ let g:coc_global_extensions = [
       \'coc-fzf-preview', 
       \'coc-prettier', 
       \'coc-tsserver',
-      \'coc-json' 
+      \'coc-json',
+      \'coc-solargraph', 
+      \'coc-html', 
+      \'coc-css',
       \]
-"      \'coc-html', 
 "      \'coc-html-css-support',
 "      \'coc-lists',
-"      \'coc-css',
 "      \'coc-stylelintplus',
  
 function! PlugCoc(info) abort
@@ -81,6 +82,7 @@ if empty(glob(data_dir . '/autoload/plug.vim'))
 endif
 
 call plug#begin('~/.vim/plugged')
+" Plug 'astashov/vim-ruby-debugger'
 Plug 'itchyny/lightline.vim'
 Plug 'preservim/nerdtree'
 Plug 'dracula/vim', {'as':'dracula'}
@@ -101,6 +103,7 @@ Plug 'tpope/vim-surround'
 Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-fugitive'
 Plug 'easymotion/vim-easymotion'
+Plug 'preservim/tagbar'
 "Plug 'pangloss/vim-javascript'
 "Plug 'epilande/vim-react-snippets'
 Plug 'tpope/vim-rails'
@@ -290,7 +293,7 @@ augroup SyntaxSettings
 augroup END
 
   " Auto close tag
-let g:closetag_filenames = '*.html,*.js,*.jsx,*.vue,*.tsx, *.ts'
+let g:closetag_filenames = '*.html,*.js,*.jsx,*.vue,*.tsx, *.ts, *.erb'
 let g:closetag_emptyTags_caseSensitive = 1
 let g:jsx_ext_required = 0
 
@@ -305,10 +308,21 @@ let g:NERDSpaceDelims = 1
 
 "easymotion
 " <Leader>f{char} to move to {char}
-map <leader><tab>{char} <Plug>(easymotion-bd-f)
+map ff <Plug>(easymotion-bd-f)
 
 "git-fugitive
 nmap <leader>gb :Gblame<CR>
+
+"tagbar
+" Highlight the active tag
+let g:tagbar_autoshowtag = 1
+" Make panel vertical and place on the right
+let g:tagbar_position = 'botright vertical'
+let g:tagbar_autofocus = 1
+" Mapping to open and close the panel
+let g:tagbar_sort = 0
+nmap B :TagbarToggle<CR>
+let g:tagbar_ctags_bin='~/ctags/ctags'
 
 "dracula color config
 "hi link jsModuleKeyword	Identifier
